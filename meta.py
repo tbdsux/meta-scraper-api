@@ -1,7 +1,10 @@
 ### MAIN SCRAPER HANDLER
 
-import httpx
-from bs4 import BeautifulSoup
+from smaxpy import Smax
+
+req_headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
+}
 
 # main class handler
 class Meta:
@@ -10,26 +13,17 @@ class Meta:
         """
         Return a bs4 soup for the class to scrape and compile.
         """
-        # define custom headers for httpx
-        req_headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
-        }
 
-        resp = ""
-        status_code = None
+        # TODO: needs rework
         try:
-            async with httpx.AsyncClient() as client:
-                raw = await client.get(website, headers=req_headers, timeout=None)
+            smax = Smax(website, headers=req_headers)
+            code = 200
+        except Exception as e:
+            print(e)
+            return cls(500, None)
 
-            resp = raw.text  # set the response
-            status_code = raw.status_code
-
-            await client.aclose()
-
-        except Exception:
-            pass  # do nothing if there was a problem while getting it
-
-        return cls(status_code, BeautifulSoup(resp, "html.parser"))
+        # status_code needs udpate from smaxpy
+        return cls(code, smax._soup)
 
     def __init__(self, status_code, soup) -> None:
         super().__init__()
