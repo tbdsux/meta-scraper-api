@@ -16,7 +16,7 @@ pyparsing==2.4.7
 regex==2021.4.4
 requests==2.25.1
 requests-toolbelt==0.9.1
-smaxpy==0.0.2
+smaxpy==0.1.0
 soupsieve==2.2.1
 starlette==0.14.2
 toml==0.10.2
