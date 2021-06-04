@@ -1,16 +1,13 @@
 {
-	"labels": ["update dependencies"],
-	"packageRules": [
-		{
-			"matchPackagePatterns": [
-				"fastapi",
-				"smaxpy",
-				"requests",
-				"bs4",
-				"lxml"
-			],
-			"labels": ["core"]
-		}
-	],
-	"schedule": "monthly"
+  "separateMajorMinor": false,
+  "extends": [
+    ":preserveSemverRanges",
+    "group:all",
+    "schedule:monthly",
+    ":maintainLockFilesMonthly"
+  ],
+  "lockFileMaintenance": {
+    "extends": ["group:all"],
+    "commitMessageAction": "Update"
+  }
 }
