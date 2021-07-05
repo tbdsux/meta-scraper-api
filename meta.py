@@ -1,4 +1,4 @@
-### MAIN SCRAPER HANDLER
+# MAIN SCRAPER HANDLER
 
 from smaxpy import Smax
 
@@ -6,8 +6,12 @@ req_headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
 }
 
-# main class handler
+
 class Meta:
+    """
+    Meta class handler
+    """
+
     @classmethod
     async def get(cls, website):
         """
@@ -29,16 +33,10 @@ class Meta:
         super().__init__()
         self.status_code = status_code
 
-        if soup:
-            self.soup = soup.head
-        else:
-            self.soup = soup
+        self.soup = soup.head if soup else soup
 
     def check_err(self):
-        if not self.status_code == 200:
-            return True  # true means there is error
-
-        return False
+        return self.status_code != 200
 
     def get_title(self):
         """
@@ -53,9 +51,7 @@ class Meta:
         """
         Compiles and returns the default and common <meta> tags.
         """
-        meta = {}
-        meta["title"] = self.get_title()
-
+        meta = {"title": self.get_title()}
         # get the description
         try:
             meta["description"] = self.soup.find("meta", attrs={"name": "description"})[
@@ -123,7 +119,7 @@ class Meta:
         # return the opengraph meta tags
         return opengraph
 
-    #### THIS WILL BE ADDED NEXT
+    # THIS WILL BE ADDED NEXT
     def meta_twitter(self):
         """
         Gets and returns the <twitter:> meta tags.
